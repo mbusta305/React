@@ -1,71 +1,38 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 class App extends React.Component {
-  constructor(){
+  constructor() {
     super();
-    this.state = {
-      red: 0,
-    }
-    this.update = this.update.bind(this)
+    this.state = {data: [
+      {id: 1, name: "Simon Bailey"},{id: 2, name: "Thomas Burleson"},
+      {id: 3, name: "Alyssa Foligno"},{id: 4, name: "Zach Bamman"},
+      {id: 5, name: "Jimmy Obenour"},{id: 6, name: "Matt Phillips"},
+      {id: 7, name: "Johnny Busta"},{id: 8, name: "Jeff Conine"},
+      {id: 9, name: "Babe Ruth"},{id: 10, name: "Hank Arron"},
+      {id: 11, name: "Steve Jobs"},
+      {id: 12, name: "Bill Gates"},
+      {id: 13, name: "Tony Tiger"},
+      {id: 14, name: "Tyler McGinnis"},
+      {id: 15, name: "Keith Peters"},
+      {id: 16, name: "Robert Penner"},
+      {id: 17, name: "Lukas Ruebbelke"},
+      {id: 18, name: "Brett Shollenberger"},
+    ]}
   }
-  update(e){
-    this.setState({
-      red: ReactDOM.findDOMNode(this.refs.red.refs.inp).value,
-    })
-  }
-  render (){
-    return (
-      <div>
-        <NumInput
-          ref="red"
-          min={0}
-          max={255}
-          step={0.01}
-          val={+this.state.red}
-          type="number"
-          label="Red"
-          update={this.update} />
-      </div>
-    );
-  }
-}
-
-class NumInput extends React.Component {
   render(){
-    let label = this.props.label !== '' ?
-      <label>{this.props.label} - {this.props.val}</label> : ''
-    return (
-      <div>
-      <input ref="inp"
-        type={this.props.type}
-        min={this.props.min}
-        max={this.props.max}
-        step={this.props.string}
-        defaultValue={this.props.val}
-        onChange={this.props.update} />
-        {label}
-      </div>
-    );
+    let rows = this.state.data.map( person => {
+      return <PersonRow key={person.id} data={person} />
+    })
+    return <table>
+      <tbody>{rows}</tbody>
+    </table>
   }
 }
 
-NumInput.propTypes= {
-  min: React.PropTypes.number,
-  max: React.PropTypes.number,
-  step: React.PropTypes.number,
-  val: React.PropTypes.number,
-  label: React.PropTypes.string,
-  update: React.PropTypes.func.isRequired,
-  type: React.PropTypes.oneOf(['number', 'range']),
-}
-
-NumInput.defaultProps = {
-  min: 0,
-  max: 0,
-  step: 1,
-  val: 0,
-  label: '',
-  type: 'range'
+const PersonRow = (props) => {
+  return <tr>
+      <td>{props.data.id}</td>
+      <td>{props.data.name}</td>
+    </tr>
 }
 
 export default App

@@ -1,38 +1,46 @@
 import React from 'react';
+
 class App extends React.Component {
   constructor() {
     super();
-    this.state = {data: [
-      {id: 1, name: "Simon Bailey"},{id: 2, name: "Thomas Burleson"},
-      {id: 3, name: "Alyssa Foligno"},{id: 4, name: "Zach Bamman"},
-      {id: 5, name: "Jimmy Obenour"},{id: 6, name: "Matt Phillips"},
-      {id: 7, name: "Johnny Busta"},{id: 8, name: "Jeff Conine"},
-      {id: 9, name: "Babe Ruth"},{id: 10, name: "Hank Arron"},
-      {id: 11, name: "Steve Jobs"},
-      {id: 12, name: "Bill Gates"},
-      {id: 13, name: "Tony Tiger"},
-      {id: 14, name: "Tyler McGinnis"},
-      {id: 15, name: "Keith Peters"},
-      {id: 16, name: "Robert Penner"},
-      {id: 17, name: "Lukas Ruebbelke"},
-      {id: 18, name: "Brett Shollenberger"},
-    ]}
+    this.state = {
+      input: '/* add your jsx here */',
+      output: '',
+      err: '',
+    }
+    this.update = this.update.bind(this);
+  }
+  update(e){
+    let code = e.target.value;
+    try {
+      this.setState({
+        output: babel.transform(code, {
+          stage: 0,
+          loose: 'all'
+        }).code,
+        err: ''
+      })
+    }
+    catch(err) {
+          this.setState({err: err.message})
+    }
   }
   render(){
-    let rows = this.state.data.map( person => {
-      return <PersonRow key={person.id} data={person} />
-    })
-    return <table>
-      <tbody>{rows}</tbody>
-    </table>
+    return (
+      <div>
+        <header>{this.state.err}</header>
+        <div className="container">
+        <textarea
+          onChange={this.update}
+          defaultValue={this.state.input}>
+          </textarea>
+        <pre>
+          {this.state.output}
+        </pre>
+      </div>
+      </div>
+    )
   }
-}
-
-const PersonRow = (props) => {
-  return <tr>
-      <td>{props.data.id}</td>
-      <td>{props.data.name}</td>
-    </tr>
 }
 
 export default App
